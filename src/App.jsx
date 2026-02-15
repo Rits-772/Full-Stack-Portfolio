@@ -10,7 +10,7 @@ import Skills from './components/Sections/Skills';
 import Projects from './components/Sections/Projects';
 import { About, Contact } from './components/Sections/Footer_Sections';
 import Aurora from './components/ui/Aurora';
-import Dock from './components/ui/Dock';
+
 
 const App = () => {
   useEffect(() => {
@@ -87,10 +87,7 @@ const App = () => {
             </p>
           </footer>
 
-          {/* Mobile Dock - ONLY VISIBLE ON SMALL SCREENS */}
-          <div className="block md:hidden">
-            <Dock items={dockItems} />
-          </div>
+          
         </div>
       </div>
     </ThemeProvider>
