@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Syne:wght@400..800&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Syne", sans-serif;
+  --font-body: "Plus Jakarta Sans", sans-serif;
+  --color-bg-page: var(--bg-primary);
+  --color-text-page: var(--text-primary);
+  --color-emerald-accent: var(--accent-primary);
+  --color-slate-muted: var(--slate-muted);
+  --color-glass-bg: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+}
+
+@layer base {
+  :root {
+    --bg-primary: #f8fafc; /* Slate 50 - Brighter cleaner look */
+    --text-page: #0f172a; /* Slate 900 - High Contrast */
+    --accent-primary: #059669; /* Darker Emerald for Light Theme */
+    --slate-muted: #475569; /* Slate 600 */
+    --glass-bg: rgba(255, 255, 255, 0.95);
+    --glass-border: rgba(15, 23, 42, 0.12);
+    --shadow-premium: 0 10px 40px -10px rgba(15, 23, 42, 0.08);
+  }
+
+  .dark {
+    --bg-primary: #020617; /* Slate 950 - Deep Navy/Black */
+    --text-page: #f8fafc; /* Slate 50 */
+    --accent-primary: #10b981; /* Emerald 500 */
+    --slate-muted: #94a3b8; /* Slate 400 */
+    --glass-bg: rgba(15, 23, 42, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.05);
+    --shadow-premium: 0 0 0 rgba(0,0,0,0);
+  }
+
+  html {
+    font-family: var(--font-body);
+    /* scroll-behavior: smooth !important; - Removed for Lenis */
+    background-color: var(--bg-primary);
+    color: var(--text-page);
+  }
+
+  body {
+    overflow-x: hidden;
+    position: relative;
+    background-color: var(--bg-primary);
+    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Animated Mesh Background */
+  .bg-mesh {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background: var(--bg-primary);
+    pointer-events: none;
+  }
+
+  .mesh-layer {
+    position: absolute;
+    width: 60vmax;
+    height: 60vmax;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    animation: mesh-float 20s infinite alternate ease-in-out;
+    pointer-events: none;
+  }
+
+  .layer-1 {
+    top: -10%;
+    left: -10%;
+    background: radial-gradient(circle, var(--accent-primary) 0%, transparent 70%);
+  }
+
+  .layer-2 {
+    bottom: -10%;
+    right: -10%;
+    background: radial-gradient(circle, #3b82f6 0%, transparent 70%);
+    animation-delay: -10s;
+  }
+
+  @keyframes mesh-float {
+    0% { transform: translate(0, 0) scale(1) rotate(0deg); }
+    100% { transform: translate(15%, 15%) scale(1.2) rotate(10deg); }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+}
+
+@layer components {
+  .text-glow {
+    text-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  }
+
+  .bg-ink-gradient {
+    background: radial-gradient(circle at 50% 50%, #111827 0%, #050505 100%);
+  }
+}
+
+/* Base Typography Refinement */
+:root {
+  --text-xs: clamp(0.7rem, 0.75vw, 0.8rem);
+  --text-sm: clamp(0.75rem, 0.85vw, 0.95rem);
+  --text-base: clamp(0.9rem, 1vw, 1.1rem);
+  --text-lg: clamp(1rem, 1.25vw, 1.25rem);
+  --text-xl: clamp(1.1rem, 1.5vw, 1.5rem);
+}
+
+/* Utility Overrides for Premium feel */
+.text-slate-muted {
+  color: var(--text-muted);
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
