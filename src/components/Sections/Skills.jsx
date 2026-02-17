@@ -55,7 +55,7 @@ const Skills = () => {
                       <div className="p-4 rounded-2xl bg-emerald-accent/10 text-emerald-accent group-hover:bg-emerald-accent group-hover:text-bg-page transition-all duration-500 shadow-inner">
                         <category.icon size={32} />
                       </div>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-muted/60 border border-slate-muted/10 px-3 py-1 rounded-full bg-slate-500/5">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-muted border border-slate-muted/20 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800/40">
                         0{idx + 1}
                       </span>
                     </div>

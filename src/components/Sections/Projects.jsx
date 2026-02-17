@@ -43,14 +43,14 @@ const Projects = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="group relative rounded-[2rem] overflow-hidden bg-bg-page/40 border border-glass-border hover:border-emerald-accent/30 transition-all duration-500 shadow-premium hover:shadow-[0_20px_50px_-12px_rgba(16,185,129,0.1)]"
+              className="group relative rounded-[2rem] overflow-hidden bg-white/20 dark:bg-bg-page/40 border border-glass-border hover:border-emerald-accent/30 transition-all duration-500 shadow-premium hover:shadow-[0_20px_50px_-12px_rgba(16,185,129,0.12)]"
             >
               {/* Image Container */}
               <div className="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden bg-glass-bg border border-glass-border mb-8">
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+                  className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 dark:opacity-80 dark:group-hover:opacity-100"
                 />
                 
                 {/* Overlay on hover */}

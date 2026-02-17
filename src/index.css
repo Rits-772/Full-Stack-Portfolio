@@ -14,23 +14,25 @@
 
 @layer base {
   :root {
-    --bg-primary: #f8fafc; /* Slate 50 - Brighter cleaner look */
-    --text-page: #0f172a; /* Slate 900 - High Contrast */
-    --accent-primary: #059669; /* Darker Emerald for Light Theme */
+    --bg-primary: #f1f5f9; /* Slate 100 - Subtle grey base */
+    --text-page: #0f172a; /* Slate 900 - High contrast charcoal */
+    --accent-primary: #10b981; /* Emerald 500 - Vibrant pop */
     --slate-muted: #475569; /* Slate 600 */
-    --glass-bg: rgba(255, 255, 255, 0.95);
-    --glass-border: rgba(15, 23, 42, 0.12);
-    --shadow-premium: 0 10px 40px -10px rgba(15, 23, 42, 0.08);
+    --glass-bg: rgba(255, 255, 255, 0.4); /* More transparent to show grey behind */
+    --glass-border: rgba(15, 23, 42, 0.1); 
+    --shadow-premium: 0 20px 50px -12px rgba(15, 23, 42, 0.08); 
+    --spotlight-color: rgba(16, 185, 129, 0.1); 
   }
 
   .dark {
-    --bg-primary: #020617; /* Slate 950 - Deep Navy/Black */
+    --bg-primary: #020617; /* Deep Navy */
     --text-page: #f8fafc; /* Slate 50 */
     --accent-primary: #10b981; /* Emerald 500 */
     --slate-muted: #94a3b8; /* Slate 400 */
     --glass-bg: rgba(15, 23, 42, 0.5);
     --glass-border: rgba(255, 255, 255, 0.05);
     --shadow-premium: 0 0 0 rgba(0,0,0,0);
+    --spotlight-color: rgba(255, 255, 255, 0.15); /* Classic soft white in Dark Mode */
   }
 
   html {
@@ -65,8 +67,8 @@
     width: 60vmax;
     height: 60vmax;
     border-radius: 50%;
-    filter: blur(80px);
-    opacity: 0.15;
+    filter: blur(100px);
+    opacity: 0.2; /* Increased for light mode presence */
     animation: mesh-float 20s infinite alternate ease-in-out;
     pointer-events: none;
   }

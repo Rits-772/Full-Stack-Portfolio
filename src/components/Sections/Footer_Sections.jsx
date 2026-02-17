@@ -100,7 +100,7 @@ const About = () => {
 
             <div className="relative">
               {/* Vertical Line */}
-              <div className="absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-emerald-accent/50 via-slate-muted/10 to-transparent" />
+              <div className="absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-emerald-accent/50 via-slate-muted/20 dark:via-slate-muted/10 to-transparent" />
 
               <div className="space-y-12 md:space-y-16">
                 {JOURNEY_STEPS.map((step, idx) => (
@@ -113,7 +113,7 @@ const About = () => {
                     className="relative pl-16 md:pl-24 group"
                   >
                     {/* Timeline Node */}
-                    <div className="absolute left-0 top-0 p-2.5 md:p-3 rounded-full bg-bg-page border border-emerald-accent/30 text-emerald-accent z-10 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.1)]">
+                    <div className="absolute left-0 top-0 p-2.5 md:p-3 rounded-full bg-white dark:bg-bg-page border border-emerald-accent/30 text-emerald-accent z-10 group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.1)]">
                       <step.icon size={18} />
                     </div>
 
@@ -131,7 +131,7 @@ const About = () => {
                         @{step.company}
                       </div>
                       
-                      <div className="pl-4 border-l-2 border-slate-muted/10 hover:border-emerald-accent/50 transition-colors relative z-10 max-w-lg">
+                      <div className="pl-4 border-l-2 border-slate-muted/20 dark:border-slate-muted/10 hover:border-emerald-accent/50 transition-colors relative z-10 max-w-lg">
                         <ScrollReveal
                           baseOpacity={0}
                           enableBlur={true}
@@ -217,7 +217,7 @@ const Contact = () => {
             <div className="space-y-4 md:space-y-6">
               {CONTACT_INFO.map(info => (
                 <SpotlightCard key={info.label} className="group flex items-center gap-6 p-5 rounded-3xl bg-glass-bg border border-glass-border hover:border-emerald-accent/30 transition-all duration-500 shadow-premium">
-                  <div className="p-3.5 rounded-2xl bg-emerald-accent/10 text-emerald-accent group-hover:bg-emerald-accent group-hover:text-bg-page transition-all relative z-10">
+                  <div className="p-3.5 rounded-2xl bg-emerald-accent/10 dark:bg-emerald-accent/10 text-emerald-accent group-hover:bg-emerald-accent group-hover:text-white dark:group-hover:text-bg-page transition-all relative z-10">
                     <info.icon size={20} />
                   </div>
                   <div className="relative z-10">
