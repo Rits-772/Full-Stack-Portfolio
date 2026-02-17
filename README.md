@@ -4,7 +4,7 @@
 
 **Repository:** Rits-772/Full-Stack-Portfolio  
 **Language:** JavaScript (77.6KB), CSS (3.2KB), HTML (354 bytes)  
-**Live Demo:** https://full-stack-portfolio-nine-eta.vercel.app  
+**Live Site:** https://rits-portfolio-eta.vercel.app  
 **Status:** Active (Last pushed: Feb 15, 2026)  
 **Visibility:** Public
 
