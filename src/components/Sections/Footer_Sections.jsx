@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import { PROFILE_INFO, JOURNEY_STEPS, SOCIAL_LINKS, CONTACT_INFO } from '../../utils/data';
 import Typewriter from '../Typewriter';
@@ -156,9 +156,49 @@ const About = () => {
 };
 
 const Contact = () => {
-  const handleSubmit = (e) => {
+  const [status, setStatus] = React.useState('idle'); // idle, loading, success, error
+  const [errorMessage, setErrorMessage] = React.useState('');
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Message sent! (Simulation)");
+    setStatus('loading');
+    setErrorMessage('');
+
+    const formData = new FormData(e.target);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      subject: formData.get('subject'),
+      message: formData.get('message'),
+    };
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      let result = {};
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        result = await response.json();
+      }
+
+      if (response.ok) {
+        setStatus('success');
+        e.target.reset();
+      } else {
+        setStatus('error');
+        setErrorMessage(result.error || `Error ${response.status}: ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      setStatus('error');
+      setErrorMessage('Something went wrong. Please try again later.');
+    }
   };
 
   return (
@@ -218,21 +258,46 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <input name="name" type="text" placeholder="Your Name" required className="w-full bg-bg-page/40 border border-glass-border rounded-2xl px-6 py-4 text-text-page focus:outline-none focus:border-emerald-accent transition-colors" />
+                    <input name="name" type="text" placeholder="Your Name" required className="w-full bg-bg-page/40 border border-glass-border rounded-2xl px-6 py-4 text-text-page focus:outline-none focus:border-emerald-accent transition-colors disabled:opacity-50" disabled={status === 'loading'} />
                   </div>
                   <div className="space-y-2">
-                    <input name="email" type="email" placeholder="Your Email" required className="w-full bg-bg-page/40 border border-glass-border rounded-2xl px-6 py-4 text-text-page focus:outline-none focus:border-emerald-accent transition-colors" />
+                    <input name="email" type="email" placeholder="Your Email" required className="w-full bg-bg-page/40 border border-glass-border rounded-2xl px-6 py-4 text-text-page focus:outline-none focus:border-emerald-accent transition-colors disabled:opacity-50" disabled={status === 'loading'} />
                   </div>
                 </div>
-                <input name="subject" type="text" placeholder="Subject" required className="w-full bg-bg-page/40 border border-glass-border rounded-2xl px-6 py-4 text-text-page focus:outline-none focus:border-emerald-accent transition-colors" />
-                <textarea name="message" rows="4" placeholder="Message" required className="w-full bg-bg-page/40 border border-glass-border rounded-3xl px-6 py-4 text-text-page focus:outline-none focus:border-emerald-accent transition-colors resize-none"></textarea>
+                <input name="subject" type="text" placeholder="Subject" required className="w-full bg-bg-page/40 border border-glass-border rounded-2xl px-6 py-4 text-text-page focus:outline-none focus:border-emerald-accent transition-colors disabled:opacity-50" disabled={status === 'loading'} />
+                <textarea name="message" rows="4" placeholder="Message" required className="w-full bg-bg-page/40 border border-glass-border rounded-3xl px-6 py-4 text-text-page focus:outline-none focus:border-emerald-accent transition-colors resize-none disabled:opacity-50" disabled={status === 'loading'}></textarea>
+                
                 <motion.button
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full bg-emerald-accent text-bg-page py-5 rounded-full font-bold text-lg flex items-center justify-center gap-2 group shadow-[0_0_30px_rgba(16,185,129,0.1)] hover:shadow-[0_0_40px_rgba(16,185,129,0.3)] transition-all"
+                  disabled={status === 'loading'}
+                  className={`w-full py-5 rounded-full font-bold text-lg flex items-center justify-center gap-2 group transition-all shadow-[0_0_30px_rgba(16,185,129,0.1)] hover:shadow-[0_0_40px_rgba(16,185,129,0.3)] ${
+                    status === 'loading' ? 'bg-emerald-accent/50 cursor-not-allowed' : 'bg-emerald-accent text-bg-page'
+                  }`}
                 >
-                  Get in Touch <ArrowUpRight size={20} />
+                  {status === 'loading' ? 'Sending...' : 'Get in Touch'} <ArrowUpRight size={20} />
                 </motion.button>
+
+                <AnimatePresence>
+                  {status === 'success' && (
+                    <motion.p
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-emerald-accent font-bold text-center mt-4 p-4 rounded-2xl bg-emerald-accent/5 border border-emerald-accent/20"
+                    >
+                      ✓ Message sent successfully!
+                    </motion.p>
+                  )}
+                  {status === 'error' && (
+                    <motion.p
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-red-500 font-bold text-center mt-4 p-4 rounded-2xl bg-red-500/5 border border-red-500/20"
+                    >
+                      ⚠ {errorMessage}
+                    </motion.p>
+                  )}
+                </AnimatePresence>
               </form>
               <div className="absolute -bottom-10 -right-10 text-[10rem] font-display font-black text-text-page/[0.08] dark:text-text-page/5 pointer-events-none select-none italic group-hover:rotate-0 rotate-6 transition-transform duration-1000">
                 HIRE

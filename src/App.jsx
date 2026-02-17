@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 import { Home, User, Briefcase, Mail, Cpu } from 'lucide-react';
 
@@ -9,10 +9,12 @@ import Hero from './components/Sections/Hero';
 import Skills from './components/Sections/Skills';
 import Projects from './components/Sections/Projects';
 import { About, Contact } from './components/Sections/Footer_Sections';
-import Aurora from './components/ui/Aurora';
+import Preloader from './components/ui/Preloader';
 
 
 const App = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -26,14 +28,16 @@ const App = () => {
     });
 
     function raf(time) {
-      lenis.raf(time);
+      if (!isLoading) {
+        lenis.raf(time);
+      }
       requestAnimationFrame(raf);
     }
 
     requestAnimationFrame(raf);
 
     return () => lenis.destroy();
-  }, []);
+  }, [isLoading]);
 
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
@@ -53,43 +57,44 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <div className="relative min-h-screen text-text-page selection:bg-emerald-accent selection:text-black">
-        {/* Aurora Background - Layered ABOVE body but BELOW content */}
-        <div className="fixed inset-0 z-0 pointer-events-none opacity-50 dark:opacity-100">
-          <Aurora 
-            colorStops={['#10b981', '#3b82f6', '#10b981']} 
-            amplitude={1.2} 
-            speed={0.8}
-          />
-        </div>
-        
-        {/* Foreground Content */}
-        <div className="relative z-10 w-full bg-transparent">
-          {/* Global Progress Bar */}
-          <motion.div
-            className="fixed top-0 left-0 right-0 h-1 bg-emerald-accent z-[110] origin-left"
-            style={{ scaleX }}
-          />
+      <AnimatePresence mode="wait">
+        {isLoading ? (
+          <Preloader key="preloader" onLoadingComplete={() => setIsLoading(false)} />
+        ) : (
+          <motion.div 
+            key="main-content"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1 }}
+            className="relative min-h-screen text-text-page selection:bg-emerald-accent selection:text-black"
+          >
+            {/* Foreground Content */}
+            <div className="relative z-10 w-full bg-transparent">
+              {/* Global Progress Bar */}
+              <motion.div
+                className="fixed top-0 left-0 right-0 h-1 bg-emerald-accent z-[110] origin-left"
+                style={{ scaleX }}
+              />
 
-          <Navbar />
-          
-          <main>
-            <Hero />
-            <Skills />
-            <Projects />
-            <About />
-            <Contact />
-          </main>
+              <Navbar />
+              
+              <main>
+                <Hero />
+                <Skills />
+                <Projects />
+                <About />
+                <Contact />
+              </main>
 
-          <footer className="py-6 border-t border-white/5 text-center px-6 mb-20 md:mb-0">
-            <p className="text-slate-500 text-sm font-medium tracking-widest uppercase">
-              &copy; {new Date().getFullYear()} Rits. Crafted with distinctive intent. 
-            </p>
-          </footer>
-
-          
-        </div>
-      </div>
+              <footer className="py-6 border-t border-white/5 text-center px-6 mb-20 md:mb-0">
+                <p className="text-slate-500 text-sm font-medium tracking-widest uppercase">
+                  &copy; {new Date().getFullYear()} Rits. Crafted with distinctive intent. 
+                </p>
+              </footer>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </ThemeProvider>
   );
 }

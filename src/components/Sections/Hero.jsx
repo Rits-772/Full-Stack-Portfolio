@@ -5,25 +5,29 @@ import { Sparkles, ArrowRight } from 'lucide-react';
 import { PROFILE_INFO } from '../../utils/data';
 import TrueFocus from '../ui/TrueFocus';
 import ScrollReveal from '../ui/ScrollReveal';
+import Hyperspeed, { hyperspeedPresets } from '../ui/Hyperspeed';
 
 const Hero = () => {
   const { scrollY } = useScroll();
   const y1 = useTransform(scrollY, [0, 500], [0, 200]);
   const y2 = useTransform(scrollY, [0, 500], [0, -150]);
 
-  const handleAnimationComplete = () => {
-    console.log('Animation completed!');
-  };
-
   return (
-    <section id="home" className="relative w-full flex flex-col justify-start pt-28 pb-20 md:pt-32 md:pb-32 px-4 md:px-6 overflow-hidden">
+    <section id="home" className="relative w-full min-h-[90vh] flex flex-col justify-start pt-28 pb-20 md:pt-32 md:pb-32 px-4 md:px-6 overflow-hidden">
+      {/* Hyperspeed Background - Contained to Hero */}
+      <div className="absolute inset-0 z-0 pointer-events-none opacity-40 dark:opacity-80">
+        <Hyperspeed effectOptions={hyperspeedPresets.one} />
+        {/* Simple gradient overlay to fade into the next section */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-bg-page" />
+      </div>
+
       {/* Floating Elements Background - Isolated container */}
       <div 
         className="absolute inset-0 overflow-hidden pointer-events-none" 
-        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
+        style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 1 }}
       >
-        <motion.div style={{ y: y1 }} className="absolute top-20 right-[10%] w-64 h-64 rounded-full bg-emerald-accent/10 blur-3xl opacity-50 dark:opacity-100" />
-        <motion.div style={{ y: y2 }} className="absolute bottom-20 left-[5%] w-96 h-96 rounded-full bg-blue-500/10 blur-3xl opacity-50 dark:opacity-100" />
+        <motion.div style={{ y: y1 }} className="absolute top-20 right-[10%] w-64 h-64 rounded-full bg-emerald-accent/5 blur-3xl opacity-50 dark:opacity-100" />
+        <motion.div style={{ y: y2 }} className="absolute bottom-20 left-[5%] w-96 h-96 rounded-full bg-blue-500/5 blur-3xl opacity-50 dark:opacity-100" />
       </div>
 
       <div className="container mx-auto max-w-7xl relative z-10" style={{ position: 'relative', zIndex: 10 }}>
