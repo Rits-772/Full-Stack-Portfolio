@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 import { Home, User, Briefcase, Mail, Cpu } from 'lucide-react';
+import { Analytics } from '@vercel/analytics/react';
 
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
@@ -92,6 +93,7 @@ const App = () => {
                 </p>
               </footer>
             </div>
+            <Analytics />
           </motion.div>
         )}
       </AnimatePresence>
