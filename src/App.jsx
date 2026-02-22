@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring, AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 import { Home, User, Briefcase, Mail, Cpu } from 'lucide-react';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
@@ -94,6 +95,7 @@ const App = () => {
               </footer>
             </div>
             <Analytics />
+            <SpeedInsights />
           </motion.div>
         )}
       </AnimatePresence>
