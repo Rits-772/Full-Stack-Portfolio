@@ -8,47 +8,63 @@ function HexagonBackground({
   className,
   children,
   hexagonProps,
-  hexagonSize = 75,
+  hexagonSize: initialHexagonSize,
   hexagonMargin = 3,
   ...props
 }) {
   const containerRef = React.useRef(null);
-  const hexagonWidth = hexagonSize;
-  const hexagonHeight = hexagonSize * 1.1;
-  const rowSpacing = hexagonSize * 0.8;
-  const baseMarginTop = -36 - 0.275 * (hexagonSize - 100);
-  const computedMarginTop = baseMarginTop + hexagonMargin;
-  const oddRowMarginLeft = -(hexagonSize / 2);
-  const evenRowMarginLeft = hexagonMargin / 2;
+  const [hexagonSize, setHexagonSize] = React.useState(initialHexagonSize || 75);
 
   const [gridDimensions, setGridDimensions] = React.useState({
     rows: 0,
     columns: 0,
   });
 
-  const updateGridDimensions = React.useCallback((width, height) => {
-    const rows = Math.ceil(height / rowSpacing);
-    const columns = Math.ceil(width / hexagonWidth) + 1;
+  const updateSettings = React.useCallback(() => {
+    if (!containerRef.current) return;
+    
+    const { width, height } = containerRef.current.getBoundingClientRect();
+    
+    // Responsive hexagon size
+    let size = initialHexagonSize || 75;
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth < 640) size = initialHexagonSize ? initialHexagonSize * 0.7 : 45;
+      else if (window.innerWidth < 1024) size = initialHexagonSize ? initialHexagonSize * 0.85 : 60;
+    }
+    setHexagonSize(size);
+
+    const rowSpacing = size * 0.8;
+    const hexagonWidth = size;
+
+    const rows = Math.ceil(height / rowSpacing) + 2;
+    const columns = Math.ceil(width / hexagonWidth) + 2;
     setGridDimensions({ rows, columns });
-  }, [rowSpacing, hexagonWidth]);
+  }, [initialHexagonSize]);
 
   React.useEffect(() => {
     if (!containerRef.current) return;
-    
-    const observer = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        updateGridDimensions(entry.contentRect.width, entry.contentRect.height);
-      }
-    });
-    
-    observer.observe(containerRef.current);
-    
-    // Initial setup
-    const rect = containerRef.current.getBoundingClientRect();
-    updateGridDimensions(rect.width, rect.height);
 
-    return () => observer.disconnect();
-  }, [updateGridDimensions]);
+    const observer = new ResizeObserver(() => {
+      updateSettings();
+    });
+
+    observer.observe(containerRef.current);
+    window.addEventListener('resize', updateSettings);
+    
+    updateSettings();
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', updateSettings);
+    };
+  }, [updateSettings]);
+
+  const hexagonWidth = hexagonSize;
+  const hexagonHeight = hexagonSize * 1.1;
+  const baseMarginTop = -36 - 0.275 * (hexagonSize - 100);
+  const computedMarginTop = baseMarginTop + hexagonMargin;
+  const oddRowMarginLeft = -(hexagonSize / 2);
+  const evenRowMarginLeft = hexagonMargin / 2;
 
   return (
     <div
@@ -66,13 +82,13 @@ function HexagonBackground({
           <div
             key={`row-${rowIndex}`}
             style={{
-              marginTop: computedMarginTop,
+              marginTop: rowIndex === 0 ? 0 : computedMarginTop,
               marginLeft:
                 ((rowIndex + 1) % 2 === 0
                   ? evenRowMarginLeft
-                  : oddRowMarginLeft) - 10,
+                  : oddRowMarginLeft) - (hexagonSize / 4),
             }}
-            className="inline-flex"
+            className="inline-flex whitespace-nowrap"
           >
             {Array.from({ length: gridDimensions.columns }).map(
               (_, colIndex) => (
@@ -86,7 +102,7 @@ function HexagonBackground({
                     ...hexagonProps?.style,
                   }}
                   className={cn(
-                    'relative',
+                    'relative shrink-0',
                     '[clip-path:polygon(50%_0%,_100%_25%,_100%_75%,_50%_100%,_0%_75%,_0%_25%)]',
                     "before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full dark:before:bg-neutral-950 before:bg-white before:opacity-100 before:transition-all before:duration-1000",
                     "after:content-[''] after:absolute after:inset-[var(--hexagon-margin)] dark:after:bg-neutral-950 after:bg-white",

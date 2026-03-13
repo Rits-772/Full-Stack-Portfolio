@@ -238,7 +238,7 @@ const Contact = () => {
             </div>
 
             {/* Quick social links grid */}
-            <div className="flex flex-wrap gap-4 mt-12 mb-12">
+            <div className="flex flex-wrap gap-4 mt-12">
               {SOCIAL_LINKS.map(link => (
                 <motion.a
                   key={link.name}
@@ -251,18 +251,13 @@ const Contact = () => {
                 </motion.a>
               ))}
             </div>
-
-            {/* Testimonials Marquee */}
-            <div className="w-full mt-auto">
-              <TestimonialsMarquee />
-            </div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col justify-center h-full"
+            className="flex flex-col"
           >
             <div className="p-8 md:p-12 rounded-[3rem] bg-glass-bg border border-glass-border backdrop-blur-xl relative group shadow-premium">
               <ShineBorder shineColor={["#10B981", "#34D399", "#059669"]} borderRadius={48} />
@@ -317,6 +312,11 @@ const Contact = () => {
             </div>
           </motion.div>
         </div>
+      </div>
+
+      {/* Testimonials Marquee - Full section width */}
+      <div className="w-full mt-16 md:mt-24 border-y border-glass-border bg-glass-bg/50">
+        <TestimonialsMarquee />
       </div>
     </section>
   );
