@@ -3,26 +3,44 @@ import { motion } from 'framer-motion';
 import { SKILLS_CATEGORY } from '../../utils/data';
 import SpotlightCard from '../ui/SpotlightCard';
 import ScrollReveal from '../ui/ScrollReveal';
+import { HexagonBackground } from '@/components/magicui/hexagon-background';
+import { AuroraText } from '@/components/magicui/aurora-text';
+import { IconCloud } from '@/components/magicui/icon-cloud';
+
+const slugs = [
+  "javascript", "html5", "css3", "sass", "webpack", "vite", 
+  "jest", "cypress", "figma", "notion", "slack", "python", 
+  "java", "nodedotjs", "react", "mongodb", "postgresql", 
+  "docker", "graphql", "vercel", "tailwindcss"
+];
 
 const Skills = () => {
+  const images = slugs.map((slug) => `https://cdn.simpleicons.org/${slug}/${slug}`);
+
   return (
-    <section id="skills" className="py-12 md:py-24 px-4 md:px-6">
-      <div className="container mx-auto max-w-7xl">
+    <section id="skills" className="relative py-12 md:py-24 px-4 md:px-6">
+      <HexagonBackground className="absolute inset-0 z-0 opacity-40 dark:opacity-20 pointer-events-none" />
+      <div className="container mx-auto max-w-7xl relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-8 md:mb-16 text-center lg:text-left"
+          className="mb-8 md:mb-16 flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left"
         >
-          <div className="flex items-center gap-4 mb-4 justify-center lg:justify-start">
-            <div className="w-12 h-px bg-emerald-accent" />
-            <span className="text-sm font-bold uppercase tracking-widest text-emerald-accent px-4 py-1 rounded-full bg-emerald-accent/10 border border-emerald-accent/20">
-              Expertise
-            </span>
+          <div>
+            <div className="flex items-center gap-4 mb-4 justify-center lg:justify-start">
+              <div className="w-12 h-px bg-emerald-accent" />
+              <span className="text-sm font-bold uppercase tracking-widest text-emerald-accent px-4 py-1 rounded-full bg-emerald-accent/10 border border-emerald-accent/20">
+                Expertise
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-5xl lg:text-8xl font-display font-black text-text-page leading-[1.1]">
+              MY <span className="italic"><AuroraText colors={['#059669', '#10B981', '#34D399', '#6ee7b7']}>ARSENAL.</AuroraText></span>
+            </h2>
           </div>
-          <h2 className="text-3xl md:text-5xl lg:text-8xl font-display font-black text-text-page leading-[1.1]">
-            MY <span className="text-emerald-accent italic">ARSENAL.</span>
-          </h2>
+          <div className="relative w-full max-w-[400px] h-64 md:h-[400px] flex items-center justify-center">
+            <IconCloud images={images} />
+          </div>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 w-full">

@@ -3,21 +3,25 @@ import { motion } from 'framer-motion';
 import { FiGithub, FiExternalLink } from 'react-icons/fi';
 import { PROJECTS } from '../../utils/data';
 import ScrollReveal from '../ui/ScrollReveal';
+import { HexagonBackground } from '@/components/magicui/hexagon-background';
+import { AuroraText } from '@/components/magicui/aurora-text';
 
 const Projects = () => {
   return (
-    <section id="work" className="py-16 md:py-24 px-4 md:px-6 relative">
-      <div className="container mx-auto max-w-7xl">
+    <section id="work" className="relative py-16 md:py-24 px-4 md:px-6">
+      <HexagonBackground className="absolute inset-0 z-0 opacity-40 dark:opacity-20 pointer-events-none" />
+      <div className="container mx-auto max-w-7xl relative z-10">
         <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          className="mb-12 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8"
+           initial={{ opacity: 0, x: -20 }}
+           whileInView={{ opacity: 1, x: 0 }}
+           viewport={{ once: true }}
+           className="mb-12 md:mb-20 flex flex-col md:flex-row md:items-end justify-between gap-8"
         >
           <div>
             <h2 className="text-3xl md:text-7xl font-display font-black text-text-page mb-6 leading-[1.1]">
-              SELECTED <br /><span className="text-emerald-accent">PRODUCTIONS.</span>
+              SELECTED <br /><span className="text-emerald-accent italic"><AuroraText colors={['#059669', '#10B981', '#34D399', '#6ee7b7']}>PRODUCTIONS.</AuroraText></span>
             </h2>
+
             <div className="max-w-md">
               <ScrollReveal
                 baseOpacity={0}

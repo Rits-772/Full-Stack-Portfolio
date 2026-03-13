@@ -5,11 +5,17 @@ import { PROFILE_INFO, JOURNEY_STEPS, SOCIAL_LINKS, CONTACT_INFO } from '../../u
 import Typewriter from '../Typewriter';
 import SpotlightCard from '../ui/SpotlightCard';
 import ScrollReveal from '../ui/ScrollReveal';
+import { HexagonBackground } from '@/components/magicui/hexagon-background';
+import { FlipCard } from '@/components/magicui/flip-card';
+import { TestimonialsMarquee } from '@/components/magicui/testimonials-marquee';
+import { ShineBorder } from '@/components/magicui/shine-border';
+import { InteractiveHoverButton } from '@/components/magicui/interactive-hover-button';
 
 const About = () => {
   return (
-    <section id="about" className="py-12 md:py-24 px-4 md:px-6">
-      <div className="container mx-auto max-w-7xl">
+    <section id="about" className="relative py-12 md:py-24 px-4 md:px-6">
+      <HexagonBackground className="absolute inset-0 z-0 opacity-40 dark:opacity-20 pointer-events-none" />
+      <div className="container mx-auto max-w-7xl relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
           
           {/* Left: Bio & Image */}
@@ -21,13 +27,11 @@ const About = () => {
               className="md:sticky md:top-32"
             >
               <div className="relative mb-8 md:mb-12 group">
-                <div className="aspect-[4/5] rounded-3xl md:rounded-[2.5rem] overflow-hidden bg-glass-bg border border-glass-border">
-                  <img 
-                    src={PROFILE_INFO.image} 
-                    alt={PROFILE_INFO.name}
-                    className="w-full h-full object-cover mix-blend-luminosity group-hover:mix-blend-normal transition-all duration-700 grayscale group-hover:grayscale-0"
-                  />
-                </div>
+                <FlipCard 
+                  profileImage={PROFILE_INFO.image} 
+                  name={PROFILE_INFO.name} 
+                  bio={PROFILE_INFO.subTitle} 
+                />
                 {/* Decorative Frame */}
                 <div className="absolute -inset-4 border border-emerald-accent/20 rounded-[3rem] -z-10 group-hover:inset-0 transition-all duration-700 hidden md:block" />
               </div>
@@ -202,8 +206,9 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="py-12 md:py-24 px-4 md:px-6 bg-glass-bg/30">
-      <div className="container mx-auto max-w-7xl">
+    <section id="contact" className="relative py-12 md:py-24 px-4 md:px-6 bg-glass-bg/30">
+      <HexagonBackground className="absolute inset-0 z-0 opacity-40 dark:opacity-20 pointer-events-none" />
+      <div className="container mx-auto max-w-7xl relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -233,7 +238,7 @@ const Contact = () => {
             </div>
 
             {/* Quick social links grid */}
-            <div className="flex flex-wrap gap-4 mt-12">
+            <div className="flex flex-wrap gap-4 mt-12 mb-12">
               {SOCIAL_LINKS.map(link => (
                 <motion.a
                   key={link.name}
@@ -246,15 +251,21 @@ const Contact = () => {
                 </motion.a>
               ))}
             </div>
+
+            {/* Testimonials Marquee */}
+            <div className="w-full mt-auto">
+              <TestimonialsMarquee />
+            </div>
           </motion.div>
 
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="flex flex-col"
+            className="flex flex-col justify-center h-full"
           >
-            <div className="p-8 md:p-12 rounded-[3rem] bg-glass-bg border border-glass-border backdrop-blur-xl relative overflow-hidden group shadow-premium">
+            <div className="p-8 md:p-12 rounded-[3rem] bg-glass-bg border border-glass-border backdrop-blur-xl relative group shadow-premium">
+              <ShineBorder shineColor={["#10B981", "#34D399", "#059669"]} borderRadius={48} />
               <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
@@ -267,16 +278,17 @@ const Contact = () => {
                 <input name="subject" type="text" placeholder="Subject" required className="w-full bg-bg-page/40 border border-glass-border rounded-2xl px-6 py-4 text-text-page focus:outline-none focus:border-emerald-accent transition-colors disabled:opacity-50" disabled={status === 'loading'} />
                 <textarea name="message" rows="4" placeholder="Message" required className="w-full bg-bg-page/40 border border-glass-border rounded-3xl px-6 py-4 text-text-page focus:outline-none focus:border-emerald-accent transition-colors resize-none disabled:opacity-50" disabled={status === 'loading'}></textarea>
                 
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  disabled={status === 'loading'}
-                  className={`w-full py-5 rounded-full font-bold text-lg flex items-center justify-center gap-2 group transition-all shadow-[0_0_30px_rgba(16,185,129,0.1)] hover:shadow-[0_0_40px_rgba(16,185,129,0.3)] ${
-                    status === 'loading' ? 'bg-emerald-accent/50 cursor-not-allowed' : 'bg-emerald-accent text-bg-page'
-                  }`}
-                >
-                  {status === 'loading' ? 'Sending...' : 'Get in Touch'} <ArrowUpRight size={20} />
-                </motion.button>
+                <div className="pt-2">
+                  <InteractiveHoverButton
+                    type="submit"
+                    disabled={status === 'loading'}
+                    className={`w-full py-5 rounded-full font-bold text-lg flex items-center justify-center gap-2 group transition-all shadow-[0_0_30px_rgba(16,185,129,0.1)] hover:shadow-[0_0_40px_rgba(16,185,129,0.3)] bg-emerald-accent/10 border-emerald-accent/50 text-emerald-accent hover:bg-emerald-accent hover:text-bg-page ${
+                      status === 'loading' ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                  >
+                    {status === 'loading' ? 'Sending...' : 'Get in Touch'}
+                  </InteractiveHoverButton>
+                </div>
 
                 <AnimatePresence>
                   {status === 'success' && (
